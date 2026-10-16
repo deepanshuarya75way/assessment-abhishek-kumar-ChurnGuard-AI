@@ -24,8 +24,14 @@ function resetFeedback(customer,data){
         customer_input:customer,
         prediction: data.prediction,
         churn_probability: data.churn_probability,
-        risk_level: data.
-    }
+        risk_level: data.risk_level
+    };
+    feedbackSubmitting=false,
+    feedbackRight.disabled =false,
+    feedbackWrong.disabled =false,
+    feedbackMessage.textContent="",
+    feedbackMessage.className = "feedback-message"
+
 }
 
 
@@ -91,6 +97,8 @@ form.addEventListener("submit", async function (event) {
         } else {
             riskText.style.color = "#16a34a";
         }
+        resetFeedback(customer,data);
+        resultCard.hidden = false;
 
         resultCard.hidden = false;
 
@@ -109,3 +117,17 @@ form.addEventListener("submit", async function (event) {
         predictButton.textContent = "Predict Customer Churn";
     }
 });
+
+async function sendFeedback(isCorrect){
+    if(!currentFeedback || feedbackSubmitting){
+        return;
+    }
+    feedbackSubmitting=true,
+    feedbackRight.disabled =true,
+    feedbackWrong.disabled =true,
+    feedbackMessage.textContent="feedback message",
+    feedbackMessage.className = "feedback saving"
+
+}
+feedbackRight.addEventListener("click", () => sendFeedback(true));
+feedbackWrong.addEventListener("click", () => sendFeedback(false));

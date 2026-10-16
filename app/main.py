@@ -7,11 +7,15 @@ from app.services.prediction import predict_churn
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
+from app.routers import feedback
+
 app = FastAPI(
     title="ChurnGuard AI",
     description="Customer churn prediction API",
     version="1.0.0",
 )
+
+app.include_router(feedback.router)
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 

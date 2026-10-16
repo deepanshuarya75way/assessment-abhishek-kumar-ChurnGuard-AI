@@ -6,6 +6,29 @@ const probabilityText = document.getElementById("probability");
 const riskText = document.getElementById("risk");
 const errorMessage = document.getElementById("errorMessage");
 
+const feedbackRight = document.getElementById("feedbackRight")
+const feedbackWrong = document.getElementById("feedbackWrong")
+const feedbackMessage = document.getElementById("feedbackMessage")
+
+let currentFeedback = null;
+letfeedbackSubmitting = false;
+function newPredictionId(){
+    if(window.crypto && crypto.randomUUID){
+        return crypto.randomUUID();
+    }
+    return "p-"+ Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,10);
+}
+function resetFeedback(customer,data){
+    currentFeedback = {
+        prediction_id: newPredictionId(),
+        customer_input:customer,
+        prediction: data.prediction,
+        churn_probability: data.churn_probability,
+        risk_level: data.
+    }
+}
+
+
 form.addEventListener("submit", async function (event) {
     // Prevent the browser from refreshing the page
     event.preventDefault();

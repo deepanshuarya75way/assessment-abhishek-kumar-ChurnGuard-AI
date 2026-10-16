@@ -38,3 +38,12 @@ class PredictionResponse(BaseModel):
     prediction: Literal["Churn", "No Churn"]
     churn_probability: float
     risk_level: Literal["Low", "Medium", "High"]
+
+class FeedbackInput(BaseModel):
+    prediction_id: str =Field(min_length=8, max_length=64)
+    is_correct:bool
+    customer_input: CustomerInput
+    prediction : Literal["Churn","No Churn"]
+    churn_probability:float=Field(ge=0,le=1)
+    risk_level : Literal["Low","Medium","High"]
+

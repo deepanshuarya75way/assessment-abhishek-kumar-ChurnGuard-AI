@@ -128,6 +128,32 @@ async function sendFeedback(isCorrect){
     feedbackMessage.textContent="feedback message",
     feedbackMessage.className = "feedback saving"
 
+    try{
+        const response =await fetch("/feedback",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({...currentFeedback,is_correct:isCorrect})    
+        });
+        const body =await response.json().catch(()=>({}));
+
+        if(response.ok || response.status===409){
+            feedbackMessage.textContent =response.ok
+                ? "good"+body.message
+                : "! feedback already submitted";
+            feedbackMessage.classList.add("success");
+            return;     
+        }
+        throw new Error(body.detail || "could not save feedback");
+
+    }catch(error){
+        feedbackMessage.textContent=error.message+"please try again";
+        feedbackMessage.classList.add("failure");
+        feedbackSubmitting=false;
+        feedbackRight.disabled =false;
+        feedbackWrong.disabled = false;
+
+    }
+
 }
 feedbackRight.addEventListener("click", () => sendFeedback(true));
 feedbackWrong.addEventListener("click", () => sendFeedback(false));
